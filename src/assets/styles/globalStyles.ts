@@ -20,7 +20,7 @@ const Global = createGlobalStyle`
     }
     
     .site-layout-background {
-        background: #fff;
+        background: #f1f0f000;
     }
 
     .ant-layout-header{

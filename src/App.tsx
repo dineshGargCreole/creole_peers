@@ -1,15 +1,16 @@
 import React from "react";
 import Layout from "./components/layout";
 import Global from "./assets/styles/globalStyles";
+import Routes from "./router";
 
 import "./App.css";
 
 function App() {
   return (
-    <div className="App">
+    <div className="">
       <Global />
       <Layout>
-        <p>This is a App</p>
+        <Routes />
       </Layout>
     </div>
   );
