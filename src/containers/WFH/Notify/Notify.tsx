@@ -13,20 +13,10 @@ import type { RadioChangeEvent } from "antd";
 import moment from "moment";
 
 function Notify() {
-  const [dayValue, setDayValue] = useState("");
-
-  const onChange = (date: any, dateString: string) => {
-    console.log("date", date);
-    console.log("dateString", dateString);
-  };
+  const [wfhCount, setWfhCount] = useState(5);
 
   const disabledDate = (currentDate: any) => {
     return currentDate && currentDate < moment().endOf("day");
-  };
-
-  const onChangeRadio = (e: RadioChangeEvent) => {
-    console.log("radio checked", e.target.value);
-    setDayValue(e.target.value);
   };
 
   const onFinish = (values: any) => {
@@ -38,7 +28,27 @@ function Notify() {
   };
 
   return (
-    <div style={{ background: "#fff", padding: "20px" }}>
+    <div>
+      <Tag
+        color={
+          wfhCount < 4
+            ? "#87d068"
+            : wfhCount >= 4 && wfhCount <= 6
+            ? "#f50"
+            : "#cd201f"
+        }
+        style={{
+          display: "block",
+          height: "35px",
+          padding: "5px",
+          fontSize: "15px",
+          marginBottom: "15px",
+          color: "#fff",
+        }}
+      >
+        Your Work from home count of this month: {wfhCount}
+      </Tag>
+
       <Form
         name="notify"
         onFinish={onFinish}
@@ -47,22 +57,26 @@ function Notify() {
         initialValues={{
           requestType: "Notify WFH",
         }}
+        style={{ background: "#fff", padding: "25px" }}
+        disabled={wfhCount === 7}
       >
         <Form.Item label="Request Type" name="requestType">
-          <Input disabled />
+          <Input disabled style={{ maxWidth: "200px" }} />
         </Form.Item>
 
-        <Form.Item name="fromDate">
-          <DatePicker disabledDate={disabledDate} placeholder="From Date" />
-        </Form.Item>
+        <Space size={200}>
+          <Form.Item name="fromDate" style={{ display: "inline-block" }}>
+            <DatePicker disabledDate={disabledDate} placeholder="From Date" />
+          </Form.Item>
 
-        <Form.Item name="toDate">
-          <DatePicker onChange={onChange} placeholder="To Date" />
-        </Form.Item>
+          <Form.Item name="toDate" style={{ display: "inline-block" }}>
+            <DatePicker placeholder="To Date" />
+          </Form.Item>
+        </Space>
 
         <Form.Item name="duration">
           <Radio.Group>
-            <Space size={300}>
+            <Space size={120}>
               <Radio value={"half1"}>First Half</Radio>
               <Radio value={"half2"}>Second Half</Radio>
               <Radio value={"full"}>Full Day</Radio>
@@ -76,8 +90,6 @@ function Notify() {
           </Button>
         </Form.Item>
       </Form>
-
-      <Tag>This month Count: 1</Tag>
     </div>
   );
 }
