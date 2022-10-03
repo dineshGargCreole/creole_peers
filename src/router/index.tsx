@@ -8,7 +8,7 @@ function index() {
     <div>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/wfh/notify" element={<Notify />} />
+        <Route path="/wfh/notification" element={<Notify />} />
       </Routes>
     </div>
   );

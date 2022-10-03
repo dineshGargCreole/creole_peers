@@ -31,6 +31,19 @@ const Global = createGlobalStyle`
         background: #565756;
     }
 
+    .ant-card-head {
+        background: #565756;
+        color: #fff;
+    }
+
+    .ant-card-head-title {
+        font-weight: 800;
+    }
+
+    .ant-menu-submenu-arrow {
+        color: #fff;
+    }
+
 `
 
 export default Global;
