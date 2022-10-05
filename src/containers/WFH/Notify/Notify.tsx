@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { Table } from "antd";
-import wfh from "../../../assets/images/wfh.png";
 import WfhForm from "../../../components/wfhForm";
 
 function Notify() {
   const columns = [
     {
-      title: "Request Type",
-      dataIndex: "requestType",
-      key: "requestType",
+      title: "WFH Type",
+      dataIndex: "wfhType",
+      key: "wfhType",
     },
     {
       title: "From Date",
@@ -30,17 +29,38 @@ function Notify() {
   const data = [
     {
       key: "1",
-      requestType: "Notify WFH",
+      wfhType: "Notification",
       fromDate: "2022-10-01",
       toDate: "2022-10-02",
-      workShift: "full",
+      workShift: "Full",
     },
     {
       key: "2",
-      requestType: "Notify WFH",
+      wfhType: "Notification",
       fromDate: "2022-10-01",
       toDate: "2022-10-02",
-      workShift: "full",
+      workShift: "Full",
+    },
+    {
+      key: "3",
+      wfhType: "Notification",
+      fromDate: "2022-10-01",
+      toDate: "2022-10-02",
+      workShift: "Full",
+    },
+    {
+      key: "4",
+      wfhType: "Notification",
+      fromDate: "2022-10-01",
+      toDate: "2022-10-02",
+      workShift: "Full",
+    },
+    {
+      key: "5",
+      wfhType: "Notification",
+      fromDate: "2022-10-01",
+      toDate: "2022-10-02",
+      workShift: "Full",
     },
   ];
 
@@ -65,6 +85,8 @@ function Notify() {
       >
         Your Work from home count of this month: {wfhCount}
       </Tag> */}
+
+    {/* <Row></Row> */}
 
       <WfhForm
         wfhType='Notification'

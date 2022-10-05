@@ -12,11 +12,11 @@ function Dashboard(props: IProps) {
         <Card
           title={props.title}
           style={{
-            width: 300,
+            width: 300, 
             // color: "#fff",
             backgroundColor:
               props.wfhCount < 4
-                ? "#87d068"
+                ? "#9ae884"
                 : props.wfhCount >= 4 && props.wfhCount <= 6
                 ? "#f50"
                 : "#cd201f",

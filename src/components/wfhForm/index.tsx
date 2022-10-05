@@ -35,21 +35,35 @@ function Index(props: IProps) {
       disabled={wfhCount === 7}
     >
       <div style={{ display: "inline-block" }}>
-        <Form.Item label="Work From Home Type" name="wfhType">
+        <Form.Item
+          label="Work From Home Type"
+          name="wfhType"
+        >
           <Input disabled style={{ maxWidth: "345px" }} />
         </Form.Item>
 
         <Space size={200}>
-          <Form.Item name="fromDate" style={{ display: "inline-block" }}>
+          <Form.Item
+            name="fromDate"
+            style={{ display: "inline-block" }}
+            rules={[{ required: true, message: 'This is required field!' }]}
+          >
             <DatePicker disabledDate={disabledDate} placeholder="From Date" />
           </Form.Item>
 
-          <Form.Item name="toDate" style={{ display: "inline-block" }}>
+          <Form.Item
+            name="toDate"
+            style={{ display: "inline-block" }}
+            rules={[{ required: true, message: 'This is required field!' }]}
+          >
             <DatePicker placeholder="To Date" />
           </Form.Item>
         </Space>
 
-        <Form.Item name="workShift">
+        <Form.Item
+          name="workShift"
+          rules={[{ required: true, message: 'This is required field!' }]}
+        >
           <Radio.Group>
             <Space size={112}>
               <Radio value={"half1"}>First Half</Radio>
@@ -61,7 +75,7 @@ function Index(props: IProps) {
 
         <Form.Item>
           <Button type="primary" htmlType="submit">
-            Submit
+            Notify
           </Button>
         </Form.Item>
       </div>

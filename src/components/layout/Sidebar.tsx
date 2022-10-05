@@ -1,34 +1,42 @@
 import React from "react";
 import { Layout, Menu } from "antd";
-import { HomeOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import './Sidebar.css'
 
 const { Sider } = Layout;
 
-const sidebarComponents = [{label: 'WFH', icon: HomeOutlined, subComponents: ['Notification', 'Request']}]
+const sidebarComponents = [{label: 'Home'},{label: 'WFH', subComponents: ['Notify', 'Request']}]
 
 function Sidebar() {
   const navigate = useNavigate()
 
   const components = sidebarComponents.map((component, index) => {
-    return {
-      key: component.label,
-      icon: React.createElement(component?.icon),
-      label: component.label,
-      children: component?.subComponents.map((component, index) => {
-        // const subKey = index * 4 + j + 1;
-        return {
-          key: component,
-          label: component,
-          onClick: (e: any) => navigate(`/${e.keyPath.reverse().join('/').toLowerCase()}`)
-        };
-      }),
-    };
+    if(component.subComponents) {
+      return {
+        key: component.label,
+        label: component.label,
+        children: component?.subComponents.map((component, index) => {
+          // const subKey = index * 4 + j + 1;
+          return {
+            key: component,
+            label: component,
+            onClick: (e: any) => navigate(`/${e.keyPath.reverse().join('/').toLowerCase()}`)
+          };
+        }),
+      };
+    } else {
+      return {
+        key: component.label,
+        label: component.label,
+        onClick: () => navigate(`/`)
+      }
+    }
   });
 
   return (
     <Sider width={200} className="site-layout-background">
       <Menu
+      className="sidebar-menu"
         mode="inline"
         // defaultSelectedKeys={["1"]}
         // defaultOpenKeys={["sub1"]}

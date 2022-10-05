@@ -19,16 +19,8 @@ const Global = createGlobalStyle`
         margin: 16px 0 16px 24px;
     }
     
-    .site-layout-background {
-        background: #f1f0f000;
-    }
-
     .ant-layout-header{
         background: #1b8fab;
-    }
-
-    .ant-menu {
-        background: #565756;
     }
 
     .ant-card-head {
@@ -42,6 +34,17 @@ const Global = createGlobalStyle`
 
     .ant-menu-submenu-arrow {
         color: #fff;
+    }
+
+    .ant-table-thead > tr > th {
+        background: #565756;
+        font-weight: 700;
+        color: #fff;
+        text-align: center;
+    }
+
+    .ant-table-tbody{
+        text-align: center;
     }
 
 `
