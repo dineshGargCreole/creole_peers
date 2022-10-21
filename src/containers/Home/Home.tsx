@@ -1,7 +1,12 @@
 import React from "react";
+import NotifyForm from "../../components/notification/NotifyForm";
 
 function Home() {
-  return <div>Home</div>;
+  return (
+    <div>
+      <NotifyForm />
+    </div>
+  );
 }
 
 export default Home;
