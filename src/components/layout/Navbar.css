@@ -1,0 +1,13 @@
+.navbar-menu {
+    background: #1b8fab !important;
+    float: right;
+}
+
+.navbar-menu-item-image {
+    left: 60px;
+}
+
+.navbar-profile-image {
+    border-radius: 50%;
+    border: 2px solid black;
+}

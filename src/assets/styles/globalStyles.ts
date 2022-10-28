@@ -1,4 +1,4 @@
-import {createGlobalStyle} from 'styled-components'
+import { createGlobalStyle } from "styled-components";
 
 const Global = createGlobalStyle`
     .ant-layout {
@@ -19,18 +19,33 @@ const Global = createGlobalStyle`
         margin: 16px 0 16px 24px;
     }
     
-    .site-layout-background {
-        background: #fff;
-    }
-
     .ant-layout-header{
         background: #1b8fab;
     }
 
-    .ant-menu {
+    .ant-card-head {
         background: #565756;
+        color: #fff;
     }
 
-`
+    .ant-card-head-title {
+        font-weight: 800;
+    }
+
+    .ant-menu-submenu-arrow {
+        color: #fff;
+    }
+
+    .ant-table-thead > tr > th {
+        background: #565756;
+        font-weight: 700;
+        color: #fff;
+        text-align: center;
+    }
+
+    .ant-table-tbody{
+        text-align: center;
+    }
+`;
 
 export default Global;
