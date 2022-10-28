@@ -12,6 +12,7 @@ import {
 import moment from "moment";
 import Dashboard from "../wfh/Dashboard";
 import ReactMultiEmailWrapper from "../common/ReactMultiEmailWrapper";
+import { alertNotification } from "../../utils/alert";
 import "./NotifyForm.css";
 
 const { Option } = Select;
@@ -49,7 +50,6 @@ function NotifyForm() {
   };
 
   const handleFieldsChange = (changeField: any, allFields: any) => {
-    console.log("changeField", changeField);
     changeField[0].name[0] === "notifyTo" &&
       changeField[0].value.length > 0 &&
       setIsBorderColor({ ...isBorderColor, notifyTo: false });
@@ -101,7 +101,6 @@ function NotifyForm() {
                 if (moment(toDate) < moment(date)) {
                   form.setFieldValue("fromDate", "");
                   setIsBorderColor({ ...isBorderColor, fromDate: true });
-                  console.log("err");
                   return;
                 }
                 setFromDate(dateString);
@@ -127,7 +126,11 @@ function NotifyForm() {
                 if (moment(fromDate) > moment(date)) {
                   form.setFieldValue("toDate", "");
                   setIsBorderColor({ ...isBorderColor, toDate: true });
-                  console.log("err");
+                  alertNotification({
+                    type: "warning",
+                    message: "Alert",
+                    description: "To date can not before from date",
+                  });
                   return;
                 }
                 setToDate(dateString);
