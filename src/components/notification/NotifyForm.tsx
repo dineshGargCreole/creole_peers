@@ -11,16 +11,22 @@ import {
 } from "antd";
 import moment from "moment";
 import Dashboard from "../wfh/Dashboard";
-import ReactSelect from "../common/ReactSelect";
-import { IOption } from "../common/ReactSelect";
+import ReactMultiEmailWrapper from "../common/ReactMultiEmailWrapper";
+import "./NotifyForm.css";
 
 const { Option } = Select;
 
 function NotifyForm() {
-  const [notifyTo, setNotifyTo] = useState<any>([]);
-  const [isDisabled, setIsDisabled] = useState(true);
-  const [isWorkshift, setIsworkshift] = useState(false);
+  const [form] = Form.useForm();
+  const [notifyTo, setNotifyTo] = useState<string[]>([]);
   const [wfhCount, setWfhCount] = useState(5);
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+  const [isBorderColor, setIsBorderColor] = useState({
+    notifyTo: false,
+    fromDate: false,
+    toDate: false,
+  });
 
   const disabledDate = (currentDate: any) => {
     return currentDate && currentDate < moment().endOf("day");
@@ -29,68 +35,37 @@ function NotifyForm() {
   const onFinish = (values: any) => {
     console.log("Success:", {
       ...values,
-      notifyTo: notifyTo.map((element: IOption) => element.value),
+      notifyTo: notifyTo,
     });
   };
 
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
-  };
-
-  const checkWorkshiftActive = (existingField: any, currentField: any) => {
-    if (existingField.name[0] === "fromDate") {
-      existingField.touched &&
-        currentField.name[0] === "toDate" &&
-        currentField.touched &&
-        setIsworkshift(true);
-    } else if (existingField.name[0] === "toDate") {
-      existingField.touched &&
-        currentField.name[0] === "fromDate" &&
-        currentField.touched &&
-        setIsworkshift(true);
-    }
-  };
-
-  const isFromDateBeforeToDate = (existingField: any, currentField: any) => {
-    if (existingField.name[0] === "fromDate") {
-      if (moment(existingField.value) > moment(currentField.value)) {
-        return true;
-      }
-    }
-  };
-
-  const checkAllFields = (current: any, all: any) => {
-    // const touchedFields = all.filter((field: any) => {
-    //   if (field.name[0] === "fromDate" && current[0].name[0] === "toDate") {
-    //     return isFromDateBeforeToDate(field, current);
-    //   }
-    //   checkWorkshiftActive(field, current[0]);
-    //   return field.touched && field.value !== "";
-    // });
-    // return touchedFields;
-
-    let touchedFields: any = [];
-    all.forEach((field: any) => {
-      if (field.touched && field.value !== "") {
-        if (field.name[0] === "fromDate" && current[0].name[0] === "toDate") {
-          if (isFromDateBeforeToDate(field, current[0])) {
-            return console.log("error");
-          }
-        }
-        // checkWorkshiftActive(field, current[0]);
-        touchedFields.push(field);
-      }
+    errorInfo.errorFields.forEach((errorField: any) => {
+      errorField.name[0] === "notifyTo" &&
+        errorField.errors.length > 0 &&
+        setIsBorderColor({ ...isBorderColor, notifyTo: true });
     });
-    return touchedFields;
   };
 
-  const handleFieldsChange = (changedField: any, allFields: any) => {
-    const touchedFields = checkAllFields(changedField, allFields);
-    touchedFields.length === allFields.length && setIsDisabled(false);
+  const handleFieldsChange = (changeField: any, allFields: any) => {
+    console.log("changeField", changeField);
+    changeField[0].name[0] === "notifyTo" &&
+      changeField[0].value.length > 0 &&
+      setIsBorderColor({ ...isBorderColor, notifyTo: false });
+
+    changeField[0].name[0] === "fromDate" &&
+      changeField[0].value !== "" &&
+      setIsBorderColor({ ...isBorderColor, fromDate: false });
+
+    changeField[0].name[0] === "toDate" &&
+      changeField[0].value !== "" &&
+      setIsBorderColor({ ...isBorderColor, toDate: false });
   };
 
   return (
     <Form
+      form={form}
       name="notify"
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
@@ -103,15 +78,15 @@ function NotifyForm() {
         <Form.Item
           label="Request"
           name="request"
-          rules={[{ required: true, message: "Please select your country!" }]}
+          rules={[{ required: true, message: "This is required field!" }]}
         >
-          <Select placeholder="Please select a country">
+          <Select placeholder="Please select a request">
             <Option value="wfh">Work From Home</Option>
             <Option value="Leave">Leave</Option>
           </Select>
         </Form.Item>
 
-        <Space size={200}>
+        <Space size={300}>
           <Form.Item
             name="fromDate"
             label="From Date"
@@ -120,8 +95,21 @@ function NotifyForm() {
           >
             <DatePicker
               disabledDate={disabledDate}
-              placeholder="From Date"
+              placeholder="From date"
               inputReadOnly
+              onChange={(date: any, dateString: string) => {
+                if (moment(toDate) < moment(date)) {
+                  form.setFieldValue("fromDate", "");
+                  setIsBorderColor({ ...isBorderColor, fromDate: true });
+                  console.log("err");
+                  return;
+                }
+                setFromDate(dateString);
+              }}
+              style={{
+                borderColor: isBorderColor.fromDate ? "orange" : "",
+                boxShadow: isBorderColor.fromDate ? "0 0 0 1px orange" : "",
+              }}
             />
           </Form.Item>
 
@@ -133,13 +121,26 @@ function NotifyForm() {
           >
             <DatePicker
               disabledDate={disabledDate}
-              placeholder="To Date"
+              placeholder="To date"
               inputReadOnly
+              onChange={(date: any, dateString: string) => {
+                if (moment(fromDate) > moment(date)) {
+                  form.setFieldValue("toDate", "");
+                  setIsBorderColor({ ...isBorderColor, toDate: true });
+                  console.log("err");
+                  return;
+                }
+                setToDate(dateString);
+              }}
+              style={{
+                borderColor: isBorderColor.toDate ? "orange" : "",
+                boxShadow: isBorderColor.toDate ? "0 0 0 1px orange" : "",
+              }}
             />
           </Form.Item>
         </Space>
 
-        {isWorkshift && (
+        {fromDate !== "" && toDate !== "" && (
           <div>
             <Form.Item
               name="fromDateWorkShift"
@@ -174,19 +175,24 @@ function NotifyForm() {
           label="Notify To"
           rules={[{ required: true, message: "This is required field!" }]}
         >
-          <ReactSelect onChange={(value: any) => setNotifyTo([...value])} />
+          <ReactMultiEmailWrapper
+            placeholder="Send notification to email"
+            onChange={(value: string[]) => setNotifyTo(value)}
+            style={{
+              width: "700px",
+              borderColor: isBorderColor.notifyTo ? "#ff4d4f" : "",
+              borderRadius: "unset",
+            }}
+            className="notify-to-wrapper"
+          />
         </Form.Item>
 
-        <Form.Item
-          label="Remarks"
-          name="remarks"
-          rules={[{ required: true, message: "This is required field!" }]}
-        >
+        <Form.Item label="Remarks" name="remarks" initialValue="">
           <Input.TextArea />
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit" disabled={isDisabled}>
+          <Button type="primary" htmlType="submit">
             Notify
           </Button>
         </Form.Item>

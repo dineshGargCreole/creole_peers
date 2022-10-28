@@ -1,4 +1,4 @@
-import {createGlobalStyle} from 'styled-components'
+import { createGlobalStyle } from "styled-components";
 
 const Global = createGlobalStyle`
     .ant-layout {
@@ -46,7 +46,6 @@ const Global = createGlobalStyle`
     .ant-table-tbody{
         text-align: center;
     }
-
-`
+`;
 
 export default Global;

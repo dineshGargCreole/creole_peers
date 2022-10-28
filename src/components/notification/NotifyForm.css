@@ -1,0 +1,11 @@
+.notify-to-wrapper:hover {
+  border-color: #40a9ff;
+}
+
+.notify-to-wrapper.focused {
+  box-shadow: 0 0 0 2px rgb(24 144 255 / 20%);
+  outline: 0;
+  border-color: #40a9ff;
+  border-right-width: 1px;
+  background: none !important;
+}
